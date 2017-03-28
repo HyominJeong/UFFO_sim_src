@@ -1,0 +1,50 @@
+/run/initialize
+
+########################################
+#
+# define scoring mesh
+#
+/score/create/boxMesh boxMesh_1
+#
+#Create a mesh large as the box
+/score/mesh/boxSize 84.96 84.96 1.5 mm
+#Position it over the box
+/score/mesh/translate/xyz 0 0 -14.15 cm
+#mesh voxel size of 5cm
+/score/mesh/nBin 48 48 1
+#
+/score/quantity/energyDeposit eDep
+/score/quantity/nOfStep nOfStepGamma
+/score/filter/particle gammaFilter gamma
+/score/quantity/nOfStep nOfStepEMinus
+/score/filter/particle eMinusFilter e-
+/score/quantity/nOfStep nOfStepEPlus
+/score/filter/particle ePlusFilter e+
+
+#
+/score/close
+#
+/score/list
+
+/vis/disable
+/run/verbose 1
+/gun/particle proton
+/run/beamOn 1
+/vis/enable
+
+/vis/viewer/panTo 0 0 m
+#/vis/viewer/zoomTo 4
+#/vis/viewer/set/viewpointThetaPhi 45 20
+########################################
+#
+# Dump scores to a file
+#
+/score/dumpQuantityToFile boxMesh_1 eDep eDep.txt
+#
+# drawing projections
+#
+/score/colorMap/setMinMax ! 0. 10.
+#/score/drawProjection boxMesh_1 eDep
+score/drawProjection boxMesh_1 nOfStepGamma
+#/score/drawProjection boxMesh_1 nOfStepEMinus
+#/score/drawProjection boxMesh_1 nOfStepEPlus

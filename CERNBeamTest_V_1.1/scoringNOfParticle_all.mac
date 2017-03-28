@@ -1,0 +1,127 @@
+/run/initialize
+
+########################################
+#
+# define scoring mesh
+#
+/score/create/boxMesh boxMesh_1
+#
+#Create a mesh large as the box
+/score/mesh/boxSize 500. 500. 0.1 mm
+#Position it over the box
+/score/mesh/translate/xyz 0 0 500 mm
+#mesh voxel size of 500*500*1
+/score/mesh/nBin 500 500 1
+#
+/score/quantity/passageCellCurrent nOfStepGamma
+
+/score/quantity/nOfStep nOfStepGammaExLow
+/score/filter/kineticEnergy gamma 0 5 keV
+/score/quantity/nOfStep nOfStepGammaLow
+/score/filter/kineticEnergy gamma 5 100 keV
+/score/quantity/nOfStep nOfStepGammaMid
+/score/filter/kineticEnergy gamma 100 500 keV
+/score/quantity/nOfStep nOfStepGammaHigh
+/score/filter/kineticEnergy gamma 500 1000 keV
+/score/quantity/nOfStep nOfStepGammaExHigh
+/score/filter/kineticEnergy gamma 1000 100000000 keV
+
+/score/quantity/nOfStep nOfStepEMinus
+/score/filter/particle eMinusFilter e-
+/score/quantity/nOfStep nOfStepEPlus
+/score/filter/particle ePlusFilter e+
+
+#
+/score/close
+#
+/score/list
+
+/vis/disable
+/run/verbose 1
+/gun/particle ion
+/gun/ion 2 4 2 63200
+/run/beamOn 10
+/gun/ion 3 6 3 63200
+/run/beamOn 10
+/gun/ion 4 8 4 63200
+/run/beamOn 10
+/gun/ion 5 10 5 63200
+/run/beamOn 10
+/gun/ion 6 12 6 63200
+/run/beamOn 10
+/gun/ion 7 14 7 63200
+/run/beamOn 10
+/gun/ion 8 16 8 63200
+/run/beamOn 10
+/gun/ion 9 18 9 63200
+/run/beamOn 10
+/gun/ion 10 20 10 63200
+/run/beamOn 10
+/gun/ion 11 22 11 63200
+/run/beamOn 10
+/gun/ion 12 24 12 63200
+/run/beamOn 10
+/gun/ion 13 26 13 63200
+/run/beamOn 10
+/gun/ion 14 28 14 63200
+/run/beamOn 10
+/gun/ion 15 30 15 63200
+/run/beamOn 10
+/gun/ion 16 32 16 63200
+/run/beamOn 10
+/gun/ion 17 34 17 63200
+/run/beamOn 10
+/gun/ion 18 36 18 63200
+/run/beamOn 10
+/gun/ion 19 38 19 63200
+/run/beamOn 10
+/gun/ion 20 40 20 63200
+/run/beamOn 10
+/gun/ion 21 42 21 63200
+/run/beamOn 10
+/gun/ion 22 44 22 63200
+/run/beamOn 10
+/gun/ion 23 46 23 63200
+/run/beamOn 10
+/gun/ion 24 48 24 63200
+/run/beamOn 10
+/gun/ion 25 50 25 63200
+/run/beamOn 10
+/gun/ion 26 52 26 63200
+/run/beamOn 10
+/vis/enable
+
+#/vis/viewer/panTo -6 3 m
+/vis/viewer/zoomTo 0.5
+#/vis/viewer/set/viewpointThetaPhi 45 20
+########################################
+#
+# Dump scores to a file
+#
+/score/dumpQuantityToFile boxMesh_1 nOfStepGammaExLow nOfStepGammaExLow.txt
+/score/dumpQuantityToFile boxMesh_1 nOfStepGammaLow nOfStepGammaLow.txt
+/score/dumpQuantityToFile boxMesh_1 nOfStepGammaMid nOfStepGammaMid.txt
+/score/dumpQuantityToFile boxMesh_1 nOfStepGammaHigh nOfStepGammaHigh.txt
+/score/dumpQuantityToFile boxMesh_1 nOfStepGammaExHigh nOfStepGammaExHigh.txt
+/score/dumpQuantityToFile boxMesh_1 nOfStepEMinus nOfStepEMinus.txt
+/score/dumpQuantityToFile boxMesh_1 nOfStepEPlus nOfStepEPlus.txt
+#
+########################################
+#
+# drawing projections
+#
+#/score/drawProjection boxMesh_1 eDep
+#/score/drawProjection boxMesh_1 nOfStepGamma
+#/score/drawProjection boxMesh_1 nOfStepEMinus
+#/score/drawProjection boxMesh_1 nOfStepEPlus
+#
+########################################
+#
+# drawing slices
+#
+#/vis/scene/create
+#/vis/sceneHandler/attach scene-1
+#/score/colorMap/setMinMax ! 0. 800.
+#/control/loop drawSlice.mac iColumn 0 10 3
+#
+########################################

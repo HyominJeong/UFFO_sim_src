@@ -1,0 +1,56 @@
+/run/initialize
+
+########################################
+#
+# define scoring mesh
+#
+/score/create/boxMesh boxMesh_1
+#
+#Create a mesh large as the box
+/score/mesh/boxSize 500. 500. 0.1 mm
+#Position it over the box
+/score/mesh/translate/xyz 0 0 500 mm
+#mesh voxel size of 500*500*1
+/score/mesh/nBin 500 500 1
+#
+/score/quantity/energyDeposit eDep
+#/score/filter/kineticEnergy gamma
+
+#
+/score/close
+#
+/score/list
+
+/vis/disable
+/run/verbose 1
+/run/beamOn 1
+/vis/enable
+
+#/vis/viewer/panTo -6 3 m
+#/vis/viewer/zoomTo 0.5
+#/vis/viewer/set/viewpointThetaPhi 45 20
+########################################
+#
+# Dump scores to a file
+#
+/score/dumpQuantityToFile boxMesh_1 eDep eDepGamma.txt
+#
+########################################
+#
+# drawing projections
+#
+#/score/drawProjection boxMesh_1 eDep
+#/score/drawProjection boxMesh_1 nOfStepGamma
+#/score/drawProjection boxMesh_1 nOfStepEMinus
+#/score/drawProjection boxMesh_1 nOfStepEPlus
+#
+########################################
+#
+# drawing slices
+#
+#/vis/scene/create
+#/vis/sceneHandler/attach scene-1
+#/score/colorMap/setMinMax ! 0. 800.
+#/control/loop drawSlice.mac iColumn 0 10 3
+#
+########################################
