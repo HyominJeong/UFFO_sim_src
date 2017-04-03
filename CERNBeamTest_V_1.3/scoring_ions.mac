@@ -13,8 +13,8 @@
 #mesh voxel size 
 /score/mesh/nBin 8 8 1
 #
-/score/quantity/energyDeposit eDep
-/score/filter/particle gammaFilter gamma
+#/score/quantity/energyDeposit eDep
+#/score/filter/particle ionFilter ion
 /score/quantity/nOfStep nOfStepopticalphoton
 /score/filter/particle opticalphotonFilter opticalphoton
 #/score/quantity/nOfStep nOfStepEMinus
@@ -29,9 +29,58 @@
 
 /vis/disable
 /run/verbose 1
-/gun/particle proton
-/gun/energy 100 MeV
-/run/beamOn 1
+/gun/energy 63.2 GeV
+/gun/particle ion
+/gun/ion 2 4 2 63200
+/run/beamOn 10
+/gun/ion 3 6 3 63200
+/run/beamOn 10
+/gun/ion 4 8 4 63200
+/run/beamOn 10
+/gun/ion 5 10 5 63200
+/run/beamOn 10
+/gun/ion 6 12 6 63200
+/run/beamOn 10
+/gun/ion 7 14 7 63200
+/run/beamOn 10
+/gun/ion 8 16 8 63200
+/run/beamOn 10
+/gun/ion 9 18 9 63200
+/run/beamOn 10
+/gun/ion 10 20 10 63200
+/run/beamOn 10
+/gun/ion 11 22 11 63200
+/run/beamOn 10
+/gun/ion 12 24 12 63200
+/run/beamOn 10
+/gun/ion 13 26 13 63200
+/run/beamOn 10
+/gun/ion 14 28 14 63200
+/run/beamOn 10
+/gun/ion 15 30 15 63200
+/run/beamOn 10
+/gun/ion 16 32 16 63200
+/run/beamOn 10
+/gun/ion 17 34 17 63200
+/run/beamOn 10
+/gun/ion 18 36 18 63200
+/run/beamOn 10
+/gun/ion 19 38 19 63200
+/run/beamOn 10
+/gun/ion 20 40 20 63200
+/run/beamOn 10
+/gun/ion 21 42 21 63200
+/run/beamOn 10
+/gun/ion 22 44 22 63200
+/run/beamOn 10
+/gun/ion 23 46 23 63200
+/run/beamOn 10
+/gun/ion 24 48 24 63200
+/run/beamOn 10
+/gun/ion 25 50 25 63200
+/run/beamOn 10
+/gun/ion 26 52 26 63200
+/run/beamOn 10
 /vis/enable
 
 #/vis/viewer/panTo 0 0 m

@@ -167,8 +167,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 
   // Cancel randomization
-  //fParticleGun->SetParticlePosition(G4ThreeVector(0.51*mm,0.51*mm,0.01*mm));
-  //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,-1.));
+  fParticleGun->SetParticlePosition(G4ThreeVector(2.88*G4UniformRand()*mm,2.88*G4UniformRand()*mm,0.01*mm));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,-1.));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
   i++;

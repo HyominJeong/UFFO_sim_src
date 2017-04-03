@@ -23,35 +23,47 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1TrackingAction.cc 66587 2012-12-21 11:06:44Z ihrivnac $
+// $Id: QGSP_BIC.hh 66892 2013-01-17 10:57:59Z gunter $
 //
-/// \file src/B1TrackingAction.cc
-/// \brief Implementation of the B1TrackingAction class
+//---------------------------------------------------------------------------
 //
+// ClassName:   
+//
+// Author: 2002 J.P. Wellisch
+//
+// Modified:
+//
+//----------------------------------------------------------------------------
+//
+#ifndef TQGSP_BIC_h
+#define TQGSP_BIC_h 1
 
+#include <CLHEP/Units/SystemOfUnits.h>
 
-#include "B1TrackingAction.hh"
-#include "G4TrackingManager.hh"
-#include "G4Track.hh"
-#include "G4ios.hh"
-#include "G4SystemOfUnits.hh"
+#include "globals.hh"
+#include "G4VModularPhysicsList.hh"
+#include "CompileTimeConstraints.hh"
 
-
-void B1TrackingAction::PreUserTrackingAction(const G4Track* aTrack)
+template<class T>
+class TQGSP_BIC: public T
 {
-	// print out lots for non-primary particle
-	// modified >1 to >=0 for check input particle
-	if(aTrack->GetParentID()>=1)  //not the input particle (assumed to be just one particle)
-	{
-	
-	    G4cout << "B1TrackingAction: " << G4endl;
-	    G4cout << " Track ID:          " << aTrack->GetTrackID() << G4endl;
-	    G4cout << " particle:          " << aTrack->GetDynamicParticle()->GetDefinition()->GetParticleName() << G4endl;
-	    G4cout << " Parent ID:         " << aTrack->GetParentID() << G4endl;
-	    G4cout << " created by:        " << aTrack->GetCreatorProcess()->GetProcessName() << G4endl;
-	    G4cout << " kin. energy (keV): " << aTrack->GetKineticEnergy() / keV << G4endl;
-	    G4cout << " volume:            " << aTrack->GetVolume()->GetName() << G4endl;
-	    G4cout << " global time:       " << aTrack->GetGlobalTime() << G4endl;
-	
-	}
-}
+public:
+  TQGSP_BIC(G4int ver = 1);
+  virtual ~TQGSP_BIC();
+  
+public:
+  // SetCuts() 
+  virtual void SetCuts();
+
+private:
+  enum {ok = CompileTimeConstraints::IsA<T, G4VModularPhysicsList>::ok };
+};
+#include "QGSP_BIC_modified.cc"
+typedef TQGSP_BIC_modified<G4VModularPhysicsList> QGSP_BIC_modified;
+
+// 2002 by J.P. Wellisch
+
+#endif
+
+
+

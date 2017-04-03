@@ -50,6 +50,8 @@ set(EXAMPLEB1_SCRIPTS
   run1.mac
   run2.mac
   vis.mac
+  scoring.mac
+  scoring_ions.mac
   )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})

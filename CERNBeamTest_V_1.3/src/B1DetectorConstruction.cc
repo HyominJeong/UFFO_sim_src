@@ -479,15 +479,16 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
               30.000*m, 28.500*m, 27.000*m, 24.500*m,
               22.000*m, 19.500*m, 17.500*m, 14.500*m };
 */
+
   G4double absorption[] =
-            {  210.*cm,  210.*cm,  210.*cm,  210.*cm,
-               210.*cm,  210.*cm,  210.*cm,  210.*cm,
-               210.*cm,  210.*cm,  210.*cm,  210.*cm,
-               210.*cm,  210.*cm,  210.*cm,  210.*cm,
-               210.*cm,  210.*cm,  210.*cm,  210.*cm,
-               210.*cm,  210.*cm,  210.*cm,  210.*cm,
-               210.*cm,  210.*cm,  210.*cm,  210.*cm,
-               210.*cm,  210.*cm,  210.*cm,  210.*cm };
+            {  1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm,
+               1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm,
+               1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm,
+               1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm,
+               1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm,
+               1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm,
+               1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm,
+               1.16*cm,  1.16*cm,  1.16*cm,  1.16*cm };
 
   assert(sizeof(absorption) == sizeof(photonEnergy));
   
@@ -511,7 +512,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
               0.01, 0.01, 0.01, 0.01,
               0.01, 0.01, 0.01, 0.01 };
 
-  assert(sizeof(scintilSlow) == sizeof(photonEnergy));
+  assert(sizeof(scintilFast) == sizeof(photonEnergy));
   
 
   G4MaterialPropertiesTable* YSOPMT = new G4MaterialPropertiesTable();
@@ -523,12 +524,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
         ->SetSpline(true);
   YSOPMT->AddProperty("FASTCOMPONENT",photonEnergy, scintilFast,     nEntries)
         ->SetSpline(true);
+  //YSOPMT->AddProperty("SLOWCOMPONENT",photonEnergy, scintilFast,     nEntries)
+  //      ->SetSpline(true);
   //YSOPMT->AddProperty("SLOWCOMPONENT",photonEnergy, scintilSlow,     nEntries)
   //      ->SetSpline(true);
-  
+
   YSOPMT->AddConstProperty("SCINTILLATIONYIELD",10000./MeV);
+  //YSOPMT->AddConstProperty("SCINTILLATIONYIELD",10000./MeV);
   YSOPMT->AddConstProperty("RESOLUTIONSCALE",1.0);
-  YSOPMT->AddConstProperty("FASTTIMECONSTANT", 1.*ns);
+  YSOPMT->AddConstProperty("FASTTIMECONSTANT", 35.*ns);
   //YSOPMT->AddConstProperty("SLOWTIMECONSTANT",35.*ns);
   YSOPMT->AddConstProperty("YIELDRATIO",0.8);
   
@@ -560,6 +564,12 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
   //G4OpticalSurface* OpYSOSurface = new G4OpticalSurface()
 
+  ////////////////////////////
+  // Set regions for SetCut //
+  ////////////////////////////
+  G4Region* regCrystal = new G4Region("regCrystal");
+  logicCellMother -> SetRegion(regCrystal);
+  regCrystal -> AddRootLogicalVolume(logicCellMother);
 
 
   G4VPVParameterisation* cellParam = new B1CellParameterisation();
@@ -587,6 +597,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   // emCalorimeter->SetFilter(energyFilter);
   SDman->AddNewDetector(emCalorimeter);
   fCrystalLog->SetSensitiveDetector(emCalorimeter); // 
+
+
 /*
   B1ShieldSD* absoSD 
     = new B1ShieldSD("AbsorberSD", "AbsorberHitsCollection", 1);

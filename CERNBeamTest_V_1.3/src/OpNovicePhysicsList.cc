@@ -61,8 +61,14 @@
 
 #include "G4SystemOfUnits.hh"
 
+// For set cuts for materials
+#include "G4RegionStore.hh"
+#include "G4Region.hh"
+#include "G4ProductionCuts.hh"
+
+
 G4ThreadLocal G4int OpNovicePhysicsList::fVerboseLevel = 1;
-G4ThreadLocal G4int OpNovicePhysicsList::fMaxNumPhotonStep = 20;
+G4ThreadLocal G4int OpNovicePhysicsList::fMaxNumPhotonStep = 0;//20;
 G4ThreadLocal G4Cerenkov* OpNovicePhysicsList::fCerenkovProcess = 0;
 G4ThreadLocal G4Scintillation* OpNovicePhysicsList::fScintillationProcess = 0;
 G4ThreadLocal G4OpAbsorption* OpNovicePhysicsList::fAbsorptionProcess = 0;
@@ -178,6 +184,9 @@ void OpNovicePhysicsList::ConstructEM()
       pmanager->AddDiscreteProcess(new G4GammaConversion());
       pmanager->AddDiscreteProcess(new G4ComptonScattering());
       pmanager->AddDiscreteProcess(new G4PhotoElectricEffect());
+
+      // Add scintillation from gamma
+      //pmanager->AddProcess("gammaScintProcess")
 
     } else if (particleName == "e-") {
     //electron
@@ -316,7 +325,23 @@ void OpNovicePhysicsList::SetCuts()
   //
   SetCutsWithDefault();
 
+  /*
+  // Production thresholds for detector regions
+  G4Region* region;
+  G4String regName;
+  G4ProductionCuts* cuts;
+
+  //regName = "YSO";
+  regName = "regCrystal";
+  region = G4RegionStore::GetInstance()->GetRegion(regName);
+  cuts = new G4ProductionCuts;
+  cuts->SetProductionCut(0.01*mm, G4ProductionCuts::GetIndex("gamma"));
+  cuts->SetProductionCut(0.1*mm, G4ProductionCuts::GetIndex("e-"));
+  cuts->SetProductionCut(0.1*mm, G4ProductionCuts::GetIndex("e+"));
+  region->SetProductionCuts(cuts);
+  */
   if (verboseLevel>0) DumpCutValuesTable();
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
